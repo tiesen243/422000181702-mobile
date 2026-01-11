@@ -1,5 +1,10 @@
-import { View } from 'react-native'
-
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Text } from '@/components/ui/text'
 
 interface InfomationProps {
@@ -12,12 +17,19 @@ interface InfomationProps {
 }
 
 export const Infomation: React.FC<InfomationProps> = ({ user }) => (
-  <View className='bg-card rounded-xl p-4 border border-border w-full'>
-    {user.age >= 18 ? (
-      <Text className='mb-2 text-green-500'>User is an adult.</Text>
-    ) : (
-      <Text className='mb-2 text-red-500'>User is a minor.</Text>
-    )}
-    <Text>{JSON.stringify(user, null, 2)}</Text>
-  </View>
+  <Card className='w-full'>
+    <CardHeader>
+      <CardTitle>Information</CardTitle>
+    </CardHeader>
+
+    <CardContent>
+      <Text>{JSON.stringify(user, null, 2)}</Text>
+    </CardContent>
+
+    <CardFooter>
+      <Text>
+        This user is a <Text>{user.age >= 18 ? 'Adult' : 'Minor'}</Text>
+      </Text>
+    </CardFooter>
+  </Card>
 )
