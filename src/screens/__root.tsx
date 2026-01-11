@@ -5,7 +5,12 @@ import IndexScreen from '@/screens/_index'
 
 const RootStack = createNativeStackNavigator({
   screens: {
-    index: IndexScreen,
+    index: {
+      screen: IndexScreen,
+      options: {
+        title: 'Home',
+      },
+    },
   },
 })
 
