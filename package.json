@@ -6,24 +6,34 @@
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
+    "format": "oxfmt --check .",
+    "format:fix": "oxfmt --write .",
     "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~54.0.30",
+    "@react-navigation/native-stack": "^7.9.0",
+    "@reduxjs/toolkit": "^2.11.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "expo": "~54.0.31",
+    "expo-splash-screen": "^31.0.13",
     "expo-system-ui": "^6.0.9",
-    "react": "19.1.0",
-    "react-native": "0.81.5",
+    "react": "~19.1.4",
+    "react-native": "~0.81.5",
     "react-native-safe-area-context": "^5.6.2",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.16.0",
+    "react-redux": "^9.2.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.17",
-    "expo-splash-screen": "^31.0.13",
     "oxfmt": "^0.21.0",
-    "oxlint": "^1.36.0",
+    "oxlint": "^1.38.0",
     "tailwindcss": "^4.1.18",
-    "typescript": "~5.9.3",
-    "uniwind": "^1.2.2"
+    "typescript": "^5.9.3",
+    "uniwind": "^1.2.3"
   }
 }
