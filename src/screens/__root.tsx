@@ -26,6 +26,13 @@ const RootStack = createNativeStackNavigator({
         title: 'Sum',
       },
     },
+    layout: {
+      screen: lazy(() => import('@/screens/layout')),
+      options: {
+        title: 'Layout',
+        headerShown: false,
+      },
+    },
   },
 })
 

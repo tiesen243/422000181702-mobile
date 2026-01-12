@@ -32,7 +32,7 @@ export default function SumScreen({
   })
 
   return (
-    <View className='flex-1 bg-background justify-center items-center px-4'>
+    <View className='flex-1 justify-center items-center px-4'>
       <Card className='w-full'>
         <CardHeader>
           <CardTitle>{params.title}</CardTitle>

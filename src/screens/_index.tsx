@@ -9,7 +9,7 @@ export default function IndexScreen() {
   const navigation = useNavigation()
 
   return (
-    <View className='flex-1 bg-background px-4 items-center justify-center gap-4'>
+    <View className='flex-1 px-4 items-center justify-center gap-4'>
       <Counter />
 
       <Button
@@ -20,6 +20,10 @@ export default function IndexScreen() {
 
       <Button onPress={() => navigation.navigate('login')}>
         <Text>Go to Login Screen</Text>
+      </Button>
+
+      <Button onPress={() => navigation.navigate('layout')}>
+        <Text>Go to Layout Screen</Text>
       </Button>
     </View>
   )
