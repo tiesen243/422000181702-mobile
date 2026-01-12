@@ -1,21 +1,26 @@
+import { useNavigation } from '@react-navigation/native'
 import { View } from 'react-native'
 
+import { Button } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
 import { Counter } from '@/features/counter'
-import { Infomation } from '@/features/information'
 
 export default function IndexScreen() {
+  const navigation = useNavigation()
+
   return (
     <View className='flex-1 bg-background px-4 items-center justify-center gap-4'>
       <Counter />
 
-      <Infomation
-        user={{
-          id: 22653991,
-          name: 'Tran Tien',
-          age: 21,
-          className: 'Lorem Ipsum',
-        }}
-      />
+      <Button
+        onPress={() => navigation.navigate('sum', { title: 'Sum 2 Numbers' })}
+      >
+        <Text>Go to Sum Screen</Text>
+      </Button>
+
+      <Button onPress={() => navigation.navigate('login')}>
+        <Text>Go to Login Screen</Text>
+      </Button>
     </View>
   )
 }

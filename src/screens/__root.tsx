@@ -2,6 +2,7 @@ import type { StaticParamList } from '@react-navigation/native'
 
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { lazy } from 'react'
 
 import IndexScreen from '@/screens/_index'
 
@@ -11,6 +12,18 @@ const RootStack = createNativeStackNavigator({
       screen: IndexScreen,
       options: {
         title: 'Home',
+      },
+    },
+    login: {
+      screen: lazy(() => import('@/screens/login')),
+      options: {
+        title: 'Login',
+      },
+    },
+    sum: {
+      screen: lazy(() => import('@/screens/sum')),
+      options: {
+        title: 'Sum',
       },
     },
   },
