@@ -25,6 +25,14 @@ export default function IndexScreen() {
       <Button onPress={() => navigation.navigate('layout')}>
         <Text>Go to Layout Screen</Text>
       </Button>
+
+      <Button onPress={() => navigation.navigate('mode')}>
+        <Text>Go to Mode Screen</Text>
+      </Button>
+
+      <Button onPress={() => navigation.navigate('effect')}>
+        <Text>Go to Effect Screen</Text>
+      </Button>
     </View>
   )
 }

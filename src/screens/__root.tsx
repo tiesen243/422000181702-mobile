@@ -33,6 +33,19 @@ const RootStack = createNativeStackNavigator({
         headerShown: false,
       },
     },
+    mode: {
+      screen: lazy(() => import('@/screens/mode')),
+      options: {
+        title: 'Mode',
+        headerShown: false,
+      },
+    },
+    effect: {
+      screen: lazy(() => import('@/screens/effect')),
+      options: {
+        title: 'Effect',
+      },
+    },
   },
 })
 
