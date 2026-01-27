@@ -29,7 +29,7 @@ export default function Assignment3Screen() {
             <MinusIcon size={16} color='#ffffff' />
           </Button>
 
-          <Text style={styles.text}>{count}</Text>
+          <Value count={count} />
 
           <Button size='icon' onPress={() => setCount((prev) => ++prev)}>
             <PlusIcon size={16} color='#ffffff' />
@@ -38,6 +38,10 @@ export default function Assignment3Screen() {
       </Card>
     </View>
   )
+}
+
+function Value({ count }: { count: number }) {
+  return <Text style={styles.text}>{count}</Text>
 }
 
 const styles = StyleSheet.create({

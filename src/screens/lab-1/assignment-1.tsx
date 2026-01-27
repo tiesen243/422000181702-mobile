@@ -6,7 +6,7 @@ import { Header } from '@/screens/lab-1/_components/header'
 export default function Assignment1Screen() {
   return (
     <View style={styles.container}>
-      <Header title='Bai 1' />
+      <Header title='tiêu đề app' />
 
       <View style={styles.main}>
         <Text style={styles.text}>Dòng chữ</Text>

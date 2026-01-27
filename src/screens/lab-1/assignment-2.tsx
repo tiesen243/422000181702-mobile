@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 80,
-    backgroundColor: '#ff0000',
+    backgroundColor: '#00ff00',
   },
 
   content: {

@@ -15,25 +15,31 @@ import { Text } from '@/components/ui/text'
 export default function Assignment5Screen() {
   const insets = useSafeAreaInsets()
 
-  const [value, setValue] = React.useState({ a: 0, b: 0, c: 0 })
+  const [value, setValue] = React.useState({ a: '0', b: '0', c: '0' })
   const [result, setResult] = React.useState({
-    value: 0,
-    isDouble: false,
+    x1: null as number | null,
+    x2: null as number | null,
   })
 
   const compute = () => {
-    const { a, b, c } = value
+    const [a, b, c] = Object.values(value).map((val) => parseFloat(val.trim()))
 
     if (a === 0) {
       if (b === 0) {
         if (c === 0) Alert.alert('Phuong trinh co vo so nghiem!')
         else Alert.alert('Phuong trinh vo nghiem!')
-      } else setResult((prev) => ({ ...prev, value: -c / b }))
+      } else setResult({ x1: -c / b, x2: null })
     } else {
       const delta = b ** 2 - 4 * a * c
-      if (delta < 0) Alert.alert('Phuong trinh vo nghiem!')
-      else if (delta === 0) setResult({ isDouble: true, value: -b / (2 * a) })
-      else setResult({ isDouble: false, value: (-b + delta ** -2) / (2 * a) })
+      if (delta < 0) {
+        Alert.alert('Phuong trinh vo nghiem!')
+        setResult({ x1: null, x2: null })
+      } else if (delta === 0) setResult({ x1: -b / (2 * a), x2: null })
+      else
+        setResult({
+          x1: (-b + delta ** (1 / 2)) / (2 * a),
+          x2: (-b - delta ** (1 / 2)) / (2 * a),
+        })
     }
   }
 
@@ -46,13 +52,13 @@ export default function Assignment5Screen() {
       }}
     >
       <FieldGroup>
-        <FieldLegend>ax^2 + bx + c = 0</FieldLegend>
+        <FieldLegend>Giai phuong trinh bậc hai: ax^2 + bx + c = 0</FieldLegend>
 
         <Field>
           <FieldLabel>Value of a</FieldLabel>
           <Input
-            value={value.a.toString()}
-            onChangeText={(val) => setValue((prev) => ({ ...prev, a: +val }))}
+            value={value.a}
+            onChangeText={(val) => setValue((prev) => ({ ...prev, a: val }))}
             keyboardType='numeric'
           />
         </Field>
@@ -61,8 +67,8 @@ export default function Assignment5Screen() {
           <FieldLabel>Value of b</FieldLabel>
 
           <Input
-            value={value.b.toString()}
-            onChangeText={(val) => setValue((prev) => ({ ...prev, b: +val }))}
+            value={value.b}
+            onChangeText={(val) => setValue((prev) => ({ ...prev, b: val }))}
             keyboardType='numeric'
           />
         </Field>
@@ -71,8 +77,8 @@ export default function Assignment5Screen() {
           <FieldLabel>Value of c</FieldLabel>
 
           <Input
-            value={value.c.toString()}
-            onChangeText={(val) => setValue((prev) => ({ ...prev, c: +val }))}
+            value={value.c}
+            onChangeText={(val) => setValue((prev) => ({ ...prev, c: val }))}
             keyboardType='numeric'
           />
         </Field>
@@ -85,10 +91,8 @@ export default function Assignment5Screen() {
 
         <Field>
           <Text>
-            Result:{' '}
-            {result.isDouble
-              ? result.value.toFixed(2)
-              : `${result.value.toFixed(2)} or ${(result.value * -1).toFixed(2)}`}
+            Result: {result.x1 !== null && `x1 = ${result.x1.toFixed(2)}`}
+            {result.x2 !== null && `, x2 = ${result.x2.toFixed(2)}`}
           </Text>
         </Field>
       </FieldGroup>
