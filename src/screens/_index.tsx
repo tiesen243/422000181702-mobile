@@ -2,6 +2,8 @@ import { Link } from '@react-navigation/native'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { Stuff } from '@/components/stuff'
+
 const labs = [
   {
     title: 'Lab 1',
@@ -26,6 +28,16 @@ export default function IndexScreen() {
         { paddingTop: insets.top, paddingBottom: insets.bottom },
       ]}
     >
+      <Stuff
+        name='Example Name'
+        age={30}
+        info={{ title: 'Example Title' }}
+        childrens={[
+          { id: 1, value: 'Child 1' },
+          { id: 2, value: 'Child 2' },
+        ]}
+      />
+
       {labs.map((lab) => (
         <View key={lab.title} style={[styles.lab, { marginBottom: 16 }]}>
           <Text style={styles.labTitle}>{lab.title}</Text>
