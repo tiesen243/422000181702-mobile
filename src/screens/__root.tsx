@@ -12,38 +12,55 @@ const RootStack = createNativeStackNavigator({
       screen: IndexScreen,
       options: {
         title: 'Home',
-      },
-    },
-    login: {
-      screen: lazy(() => import('@/screens/login')),
-      options: {
-        title: 'Login',
-      },
-    },
-    sum: {
-      screen: lazy(() => import('@/screens/sum')),
-      options: {
-        title: 'Sum',
-      },
-    },
-    layout: {
-      screen: lazy(() => import('@/screens/layout')),
-      options: {
-        title: 'Layout',
         headerShown: false,
       },
     },
-    mode: {
-      screen: lazy(() => import('@/screens/mode')),
+
+    'lab-1-1': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-1')),
       options: {
-        title: 'Mode',
+        title: 'Lab 1 - 1',
         headerShown: false,
       },
     },
-    effect: {
-      screen: lazy(() => import('@/screens/effect')),
+
+    'lab-1-2': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-2')),
       options: {
-        title: 'Effect',
+        title: 'Lab 1 - 2',
+        headerShown: false,
+      },
+    },
+
+    'lab-1-2-extend': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-2-extend')),
+      options: {
+        title: 'Lab 1 - 2 - extend',
+        headerShown: false,
+      },
+    },
+
+    'lab-1-3': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-3')),
+      options: {
+        title: 'Lab 1 - 3',
+        headerShown: false,
+      },
+    },
+
+    'lab-1-4': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-4')),
+      options: {
+        title: 'Lab 1 - 4',
+        headerShown: false,
+      },
+    },
+
+    'lab-1-5': {
+      screen: lazy(() => import('@/screens/lab-1/assignment-5')),
+      options: {
+        title: 'Lab 1 - 5',
+        headerShown: false,
       },
     },
   },

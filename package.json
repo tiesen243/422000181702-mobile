@@ -15,18 +15,16 @@
   "dependencies": {
     "@react-navigation/native": "^7.1.26",
     "@react-navigation/native-stack": "^7.9.0",
-    "@reduxjs/toolkit": "^2.11.2",
-    "arktype": "^2.1.29",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expo": "^54.0.31",
     "expo-splash-screen": "^31.0.13",
     "expo-system-ui": "^6.0.9",
+    "lucide-react-native": "^0.563.0",
     "react": "19.1.0",
     "react-native": "0.81.5",
     "react-native-safe-area-context": "^5.6.2",
     "react-native-screens": "4.16.0",
-    "react-redux": "^9.2.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

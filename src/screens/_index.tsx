@@ -1,38 +1,73 @@
-import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
+import { Link } from '@react-navigation/native'
+import { StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { Button } from '@/components/ui/button'
-import { Text } from '@/components/ui/text'
-import { Counter } from '@/features/counter'
+const labs = [
+  {
+    title: 'Lab 1',
+    assignments: [
+      { title: 'Assignment 1', screen: 'lab-1-1' },
+      { title: 'Assignment 2', screen: 'lab-1-2' },
+      { title: 'Assignment 2 - Extend', screen: 'lab-1-2-extend' },
+      { title: 'Assignment 3', screen: 'lab-1-3' },
+      { title: 'Assignment 4', screen: 'lab-1-4' },
+      { title: 'Assignment 5', screen: 'lab-1-5' },
+    ],
+  },
+] as const
 
 export default function IndexScreen() {
-  const navigation = useNavigation()
+  const insets = useSafeAreaInsets()
 
   return (
-    <View className='flex-1 px-4 items-center justify-center gap-4'>
-      <Counter />
+    <View
+      style={[
+        styles.container,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
+      {labs.map((lab) => (
+        <View key={lab.title} style={[styles.lab, { marginBottom: 16 }]}>
+          <Text style={styles.labTitle}>{lab.title}</Text>
 
-      <Button
-        onPress={() => navigation.navigate('sum', { title: 'Sum 2 Numbers' })}
-      >
-        <Text>Go to Sum Screen</Text>
-      </Button>
-
-      <Button onPress={() => navigation.navigate('login')}>
-        <Text>Go to Login Screen</Text>
-      </Button>
-
-      <Button onPress={() => navigation.navigate('layout')}>
-        <Text>Go to Layout Screen</Text>
-      </Button>
-
-      <Button onPress={() => navigation.navigate('mode')}>
-        <Text>Go to Mode Screen</Text>
-      </Button>
-
-      <Button onPress={() => navigation.navigate('effect')}>
-        <Text>Go to Effect Screen</Text>
-      </Button>
+          {lab.assignments.map((assignment) => (
+            <Link
+              key={assignment.screen}
+              screen={assignment.screen}
+              style={styles.labLink}
+            >
+              {assignment.title}
+            </Link>
+          ))}
+        </View>
+      ))}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingInline: 16,
+  },
+
+  lab: {
+    backgroundColor: '#0a0a0a',
+    padding: 16,
+    borderRadius: 8,
+    borderColor: '#242424',
+    borderWidth: 1,
+  },
+
+  labTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+
+  labLink: {
+    marginTop: 8,
+    fontSize: 20,
+    color: '#3f5ec2',
+  },
+})
