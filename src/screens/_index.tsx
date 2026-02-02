@@ -6,6 +6,10 @@ import { Stuff } from '@/components/stuff'
 
 const labs = [
   {
+    title: 'Theory',
+    assignments: [{ title: 'Tabs Navigation', screen: 'tabs' }],
+  },
+  {
     title: 'Lab 1',
     assignments: [
       { title: 'Assignment 1', screen: 'lab-1-1' },
@@ -28,16 +32,6 @@ export default function IndexScreen() {
         { paddingTop: insets.top, paddingBottom: insets.bottom },
       ]}
     >
-      <Stuff
-        name='Example Name'
-        age={30}
-        info={{ title: 'Example Title' }}
-        childrens={[
-          { id: 1, value: 'Child 1' },
-          { id: 2, value: 'Child 2' },
-        ]}
-      />
-
       {labs.map((lab) => (
         <View key={lab.title} style={[styles.lab, { marginBottom: 16 }]}>
           <Text style={styles.labTitle}>{lab.title}</Text>
@@ -53,6 +47,16 @@ export default function IndexScreen() {
           ))}
         </View>
       ))}
+
+      <Stuff
+        name='Example Name'
+        age={30}
+        info={{ title: 'Example Title' }}
+        childrens={[
+          { id: 1, value: 'Child 1' },
+          { id: 2, value: 'Child 2' },
+        ]}
+      />
     </View>
   )
 }

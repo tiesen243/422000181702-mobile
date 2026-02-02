@@ -4,6 +4,7 @@ import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
+import Tabs from '@/screens/(tabs)/__root'
 import IndexScreen from '@/screens/_index'
 
 const RootStack = createNativeStackNavigator({
@@ -14,6 +15,10 @@ const RootStack = createNativeStackNavigator({
         title: 'Home',
         headerShown: false,
       },
+    },
+
+    tabs: {
+      screen: Tabs,
     },
 
     'lab-1-1': {
