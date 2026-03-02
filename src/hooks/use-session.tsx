@@ -4,6 +4,7 @@ import {
   deleteAccessToken,
   deleteSessionToken,
   getAccessToken,
+  getSessionToken,
   setAccessToken,
   setSessionToken,
 } from '@/lib/secure-store'
@@ -18,6 +19,7 @@ interface SessionContextValue {
 
   signIn: (opts: { email: string; password: string }) => Promise<void>
   signOut: () => void
+  refreshToken: () => Promise<void>
 }
 
 const SessionContext = React.createContext<SessionContextValue | null>(null)
@@ -50,7 +52,7 @@ function SessionProvider({
             },
           }
         )
-        if (!res.ok) return console.error('Failed to fetch current user')
+        if (!res.ok) return setUser(null)
         return setUser(await res.json())
       }),
     []
@@ -77,16 +79,37 @@ function SessionProvider({
   )
 
   const signOut = React.useCallback(async () => {
-    setUser(null)
+    await fetch('http://192.168.1.10:3000/api/auth/sign-out', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getSessionToken()}`,
+      },
+    })
     await deleteAccessToken()
     await deleteSessionToken()
+    setUser(null)
   }, [])
+
+  const refreshToken = React.useCallback(async () => {
+    const res = await fetch('http://192.168.1.10:3000/api/auth/refresh-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getSessionToken()}`,
+      },
+    })
+    if (!res.ok) return signOut()
+    const { accessToken } = (await res.json()) as { accessToken: string }
+    await setAccessToken(accessToken)
+    refresh()
+  }, [refresh, signOut])
 
   React.useEffect(() => refresh(), [refresh])
 
   const value = React.useMemo(
-    () => ({ user, isLoading, signIn, signOut }),
-    [user, isLoading, signIn, signOut]
+    () => ({ user, isLoading, signIn, signOut, refreshToken }),
+    [user, isLoading, signIn, signOut, refreshToken]
   )
 
   return <SessionContext value={value}>{children}</SessionContext>

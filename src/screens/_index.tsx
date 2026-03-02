@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Text } from '@/components/ui/text'
 import { useSession } from '@/hooks/use-session'
 
@@ -28,28 +29,32 @@ export default function IndexScreen() {
   return (
     <View
       style={[
-        styles.container,
+        { flex: 1, paddingInline: 16 },
         { paddingTop: insets.top, paddingBottom: insets.bottom },
       ]}
     >
       {labs.map((lab) => (
-        <View key={lab.title} style={[styles.lab, { marginBottom: 16 }]}>
-          <Text>{lab.title}</Text>
+        <Card key={lab.title} style={{ marginBottom: 16 }}>
+          <CardHeader>
+            <Text variant='h4'>{lab.title}</Text>
+          </CardHeader>
 
-          {lab.assignments.map((assignment) => (
-            <Button
-              key={assignment.screen}
-              variant='link'
-              style={{ alignItems: 'flex-start' }}
-              onPress={() => navigate.navigate(assignment.screen)}
-            >
-              <Text>{assignment.title}</Text>
-            </Button>
-          ))}
-        </View>
+          <CardContent>
+            {lab.assignments.map((assignment) => (
+              <Button
+                key={assignment.screen}
+                variant='link'
+                style={{ alignItems: 'flex-start' }}
+                onPress={() => navigate.navigate(assignment.screen)}
+              >
+                <Text>{assignment.title}</Text>
+              </Button>
+            ))}
+          </CardContent>
+        </Card>
       ))}
 
-      <Text style={styles.labTitle}>{JSON.stringify(user, null, 2)}</Text>
+      <Text>{JSON.stringify(user, null, 2)}</Text>
       <Button onPress={() => navigate.navigate('sign-in')}>
         <Text>Sign In</Text>
       </Button>
@@ -59,30 +64,3 @@ export default function IndexScreen() {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingInline: 16,
-  },
-
-  lab: {
-    backgroundColor: '#0a0a0a',
-    padding: 16,
-    borderRadius: 8,
-    borderColor: '#242424',
-    borderWidth: 1,
-  },
-
-  labTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-
-  labLink: {
-    marginTop: 8,
-    fontSize: 20,
-    color: '#3f5ec2',
-  },
-})
