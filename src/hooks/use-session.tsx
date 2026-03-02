@@ -9,6 +9,8 @@ import {
   setSessionToken,
 } from '@/lib/secure-store'
 
+// source api: https://github.com/tiesen243/yuki-ui/tree/main/examples/auth-next/server/auth
+
 interface SessionContextValue {
   user: {
     id: string
