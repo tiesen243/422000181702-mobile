@@ -1,29 +1,29 @@
-import { Link } from '@react-navigation/native'
-import { StyleSheet, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { Stuff } from '@/components/stuff'
+import { Button } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
+import { useSession } from '@/hooks/use-session'
 
 const labs = [
   {
     title: 'Theory',
-    assignments: [{ title: 'Tabs Navigation', screen: 'tabs' }],
+    assignments: [
+      { title: 'Tabs Navigation', screen: 'tabs' },
+      { title: 'Context API', screen: 'context-api' },
+    ],
   },
   {
-    title: 'Lab 1',
-    assignments: [
-      { title: 'Assignment 1', screen: 'lab-1-1' },
-      { title: 'Assignment 2', screen: 'lab-1-2' },
-      { title: 'Assignment 2 - Extend', screen: 'lab-1-2-extend' },
-      { title: 'Assignment 3', screen: 'lab-1-3' },
-      { title: 'Assignment 4', screen: 'lab-1-4' },
-      { title: 'Assignment 5', screen: 'lab-1-5' },
-    ],
+    title: 'Labs',
+    assignments: [{ title: 'Lab 1', screen: 'lab-1' }],
   },
 ] as const
 
 export default function IndexScreen() {
+  const navigate = useNavigation()
   const insets = useSafeAreaInsets()
+  const { user, signOut } = useSession()
 
   return (
     <View
@@ -34,29 +34,28 @@ export default function IndexScreen() {
     >
       {labs.map((lab) => (
         <View key={lab.title} style={[styles.lab, { marginBottom: 16 }]}>
-          <Text style={styles.labTitle}>{lab.title}</Text>
+          <Text>{lab.title}</Text>
 
           {lab.assignments.map((assignment) => (
-            <Link
+            <Button
               key={assignment.screen}
-              screen={assignment.screen}
-              style={styles.labLink}
+              variant='link'
+              style={{ alignItems: 'flex-start' }}
+              onPress={() => navigate.navigate(assignment.screen)}
             >
-              {assignment.title}
-            </Link>
+              <Text>{assignment.title}</Text>
+            </Button>
           ))}
         </View>
       ))}
 
-      <Stuff
-        name='Example Name'
-        age={30}
-        info={{ title: 'Example Title' }}
-        childrens={[
-          { id: 1, value: 'Child 1' },
-          { id: 2, value: 'Child 2' },
-        ]}
-      />
+      <Text style={styles.labTitle}>{JSON.stringify(user, null, 2)}</Text>
+      <Button onPress={() => navigate.navigate('sign-in')}>
+        <Text>Sign In</Text>
+      </Button>
+      <Button onPress={signOut}>
+        <Text>Sign Out</Text>
+      </Button>
     </View>
   )
 }

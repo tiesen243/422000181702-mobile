@@ -1,7 +1,8 @@
-import { ExpoConfig, ConfigContext } from 'expo/config'
+import type { ExpoConfig, ConfigContext } from 'expo/config'
 
 import pkg from './package.json'
 
+// oxlint-disable-next-line unicorn/no-anonymous-default-export
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: pkg.name.split('-').pop() ?? pkg.name,
@@ -12,7 +13,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon-light.png',
   userInterfaceStyle: 'automatic',
   updates: { fallbackToCacheTimeout: 0 },
-  newArchEnabled: true,
   assetBundlePatterns: ['**/*'],
   ios: {
     bundleIdentifier: `com.tiesen.${pkg.name.split('-').pop()}`,
@@ -28,12 +28,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/icon-light.png',
       backgroundColor: '#14185a',
     },
-    edgeToEdgeEnabled: true,
   },
   experiments: {
     tsconfigPaths: true,
   },
   plugins: [
+    'expo-secure-store',
     [
       'expo-splash-screen',
       {

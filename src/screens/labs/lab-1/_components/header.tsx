@@ -5,16 +5,7 @@ export function Header({ title }: { title: string }) {
   const inset = useSafeAreaInsets()
 
   return (
-    <View
-      style={[
-        styles.header,
-        {
-          paddingTop: inset.top,
-          paddingBottom: inset.bottom,
-          paddingInline: 16,
-        },
-      ]}
-    >
+    <View style={[styles.header, { paddingTop: inset.top, paddingInline: 16 }]}>
       <Text style={styles.text}>{title}</Text>
     </View>
   )

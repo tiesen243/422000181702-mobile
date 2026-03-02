@@ -8,44 +8,39 @@ import { Platform, Text as RNText } from 'react-native'
 import { cn } from '@/lib/utils'
 
 const textVariants = cva(
-  cn(
-    'text-foreground text-base',
-    Platform.select({
-      web: 'select-text',
-    }),
-  ),
+  cn('text-base text-foreground', Platform.select({ web: 'select-text' })),
   {
     variants: {
       variant: {
         default: '',
         h1: cn(
           'text-4xl font-extrabold tracking-tight',
-          Platform.select({ web: 'scroll-m-20 text-balance' }),
+          Platform.select({ web: 'scroll-m-20 text-balance' })
         ),
         h2: cn(
           'text-3xl font-semibold tracking-tight',
-          Platform.select({ web: 'scroll-m-20 first:mt-0' }),
+          Platform.select({ web: 'scroll-m-20 first:mt-0' })
         ),
         h3: cn(
           'text-2xl font-semibold tracking-tight',
-          Platform.select({ web: 'scroll-m-20' }),
+          Platform.select({ web: 'scroll-m-20' })
         ),
         h4: cn(
           'text-xl font-semibold tracking-tight',
-          Platform.select({ web: 'scroll-m-20' }),
+          Platform.select({ web: 'scroll-m-20' })
         ),
         p: 'mt-3 leading-7 sm:mt-6',
         blockquote:
           'my-2 border-l-2 pl-6 italic before:content-["“"] after:content-["”"]',
         code: cn(
-          'bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
+          'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold'
         ),
       },
     },
     defaultVariants: {
       variant: 'default',
     },
-  },
+  }
 )
 
 type TextVariantProps = VariantProps<typeof textVariants>

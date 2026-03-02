@@ -4,8 +4,9 @@ import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
-import Tabs from '@/screens/(tabs)/__root'
 import IndexScreen from '@/screens/_index'
+import Lab1Root from '@/screens/labs/lab-1/__root'
+import Tabs from '@/screens/theories/(tabs)/__root'
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -17,56 +18,25 @@ const RootStack = createNativeStackNavigator({
       },
     },
 
+    // Theories
     tabs: {
       screen: Tabs,
     },
+    'context-api': {
+      screen: lazy(() => import('@/screens/theories/context-api')),
+    },
 
-    'lab-1-1': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-1')),
+    // Labs
+    'lab-1': {
+      screen: Lab1Root,
       options: {
-        title: 'Lab 1 - 1',
         headerShown: false,
       },
     },
 
-    'lab-1-2': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-2')),
-      options: {
-        title: 'Lab 1 - 2',
-        headerShown: false,
-      },
-    },
-
-    'lab-1-2-extend': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-2-extend')),
-      options: {
-        title: 'Lab 1 - 2 - extend',
-        headerShown: false,
-      },
-    },
-
-    'lab-1-3': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-3')),
-      options: {
-        title: 'Lab 1 - 3',
-        headerShown: false,
-      },
-    },
-
-    'lab-1-4': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-4')),
-      options: {
-        title: 'Lab 1 - 4',
-        headerShown: false,
-      },
-    },
-
-    'lab-1-5': {
-      screen: lazy(() => import('@/screens/lab-1/assignment-5')),
-      options: {
-        title: 'Lab 1 - 5',
-        headerShown: false,
-      },
+    //
+    'sign-in': {
+      screen: lazy(() => import('@/screens/sign-in')),
     },
   },
 })
@@ -76,7 +46,9 @@ export const Navigation = createStaticNavigation(RootStack)
 declare global {
   type RootStackParamList = StaticParamList<typeof RootStack>
 
+  // oxlint-disable-next-line typescript/no-namespace
   namespace ReactNavigation {
+    // oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type
     interface RootParamList extends RootStackParamList {}
   }
 }

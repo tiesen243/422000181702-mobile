@@ -24,14 +24,14 @@ export default function Assignment3Screen() {
         <CardContent style={styles.content}>
           <Button
             size='icon'
-            onPress={() => setCount((prev) => (prev > 0 ? --prev : prev))}
+            onPress={() => setCount((prev) => (prev > 0 ? prev - 1 : prev))}
           >
             <MinusIcon size={16} color='#ffffff' />
           </Button>
 
           <Value count={count} />
 
-          <Button size='icon' onPress={() => setCount((prev) => ++prev)}>
+          <Button size='icon' onPress={() => setCount((prev) => prev + 1)}>
             <PlusIcon size={16} color='#ffffff' />
           </Button>
         </CardContent>

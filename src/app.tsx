@@ -6,6 +6,7 @@ import { StatusBar } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useUniwind } from 'uniwind'
 
+import { SessionProvider } from '@/hooks/use-session'
 import { Navigation } from '@/screens/__root'
 
 SplashScreen.preventAutoHideAsync()
@@ -41,11 +42,13 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Navigation theme={theme} onReady={() => SplashScreen.hideAsync()} />
+      <SessionProvider>
+        <Navigation theme={theme} onReady={() => SplashScreen.hideAsync()} />
 
-      <StatusBar
-        barStyle={colorscheme === 'dark' ? 'light-content' : 'dark-content'}
-      />
+        <StatusBar
+          barStyle={colorscheme === 'dark' ? 'light-content' : 'dark-content'}
+        />
+      </SessionProvider>
     </SafeAreaProvider>
   )
 }

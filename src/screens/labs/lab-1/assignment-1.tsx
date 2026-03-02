@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-import { Header } from '@/screens/lab-1/_components/header'
+import { Header } from '@/screens/labs/lab-1/_components/header'
 // import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function Assignment1Screen() {
@@ -15,20 +15,11 @@ export default function Assignment1Screen() {
   )
 }
 
-// function Header({ title }: { title: string }) {
+// export function Header({ title }: { title: string }) {
 //   const inset = useSafeAreaInsets()
 //
 //   return (
-//     <View
-//       style={[
-//         styles.header,
-//         {
-//           paddingTop: inset.top,
-//           paddingBottom: inset.bottom,
-//           paddingInline: 16,
-//         },
-//       ]}
-//     >
+//     <View style={[styles.header, { paddingTop: inset.top, paddingInline: 16 }]}>
 //       <Text style={styles.text}>{title}</Text>
 //     </View>
 //   )

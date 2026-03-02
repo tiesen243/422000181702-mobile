@@ -22,7 +22,9 @@ export default function Assignment5Screen() {
   })
 
   const compute = () => {
-    const [a, b, c] = Object.values(value).map((val) => parseFloat(val.trim()))
+    const [a, b, c] = Object.values(value).map((val) =>
+      Number.parseFloat(val.trim())
+    )
 
     if (a === 0) {
       if (b === 0) {

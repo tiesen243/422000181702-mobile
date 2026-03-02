@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { CogIcon, HomeIcon } from 'lucide-react-native'
 import { lazy } from 'react'
 
-import IndexScreen from '@/screens/(tabs)/_index'
+import IndexScreen from '@/screens/theories/(tabs)/_index'
 
 const Tabs = createBottomTabNavigator({
   initialRouteName: 'index',
@@ -20,7 +20,7 @@ const Tabs = createBottomTabNavigator({
     },
 
     settings: {
-      screen: lazy(() => import('@/screens/(tabs)/settings')),
+      screen: lazy(() => import('@/screens/theories/(tabs)/settings')),
       options: {
         tabBarIcon: (props) => <CogIcon {...props} />,
       },

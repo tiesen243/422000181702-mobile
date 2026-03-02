@@ -1,260 +1,271 @@
-import type { GestureResponderEvent } from 'react-native'
-
 import * as React from 'react'
 
-interface FormError<TValue extends Record<string, unknown>> {
+interface FormError {
   message: string | null
-  errors?: Record<keyof TValue, StandardSchemaV1.Issue[]>
+  issues?: StandardSchemaV1.Issue[]
 }
 
-type ExtractValues<T extends StandardSchemaV1> = {
-  [K in keyof Required<StandardSchemaV1.InferInput<T>>]: Required<
-    StandardSchemaV1.InferInput<T>
-  >[K]
+type OnChangeParam<TValue> =
+  | React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  | TValue
+
+interface FormFieldProps<TName extends keyof TValues, TValues> {
+  name: TName
+  render: (props: {
+    field: {
+      id: string
+      name: TName
+      value: TValues[TName]
+      onChange: (params: OnChangeParam<TValues[TName]>) => void
+      onBlur: () => void
+
+      // Accessibility attributes
+      form: string
+      'aria-describedby': string
+      'aria-invalid': boolean
+    }
+    meta: {
+      descriptionId: string
+      errorId: string
+      errors: StandardSchemaV1.Issue[]
+      isPending: boolean
+    }
+  }) => React.ReactNode
 }
 
-type PrimitiveValue = string | number | boolean
-
-interface RenderProps<
-  TValue extends Record<string, unknown>,
-  TFieldName extends keyof TValue,
-> {
-  meta: {
-    fieldId: string
-    descriptionId: string
-    errorId: string
-    errors: StandardSchemaV1.Issue[]
-    isPending: boolean
-  }
-  field: {
-    id: string
-    name: TFieldName
-    value: TValue[TFieldName]
-    onChange: (
-      event:
-        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        | PrimitiveValue,
-    ) => void
-    onBlur: (
-      event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => Promise<void>
-    'aria-describedby': string
-    'aria-invalid': boolean
-  }
+function extractError(errors: StandardSchemaV1.Issue[], name: string) {
+  return errors.filter((issue) => {
+    if (!issue.path || issue.path.length === 0) return false
+    const [firstPath] = issue.path
+    if (typeof firstPath === 'object' && 'key' in firstPath)
+      return firstPath.key === name
+    return firstPath === name
+  })
 }
 
-const useForm = <
-  TValues extends Record<string, unknown>,
+export function useForm<
+  TValues,
   TData,
-  TError extends FormError<TValues>,
+  TError extends FormError,
   TSchema extends
     | StandardSchemaV1
-    | ((value: TValues) => TResults | Promise<TResults>),
+    | ((values: TValues) => TResults | Promise<TResults>),
   TResults extends StandardSchemaV1.Result<TValues>,
->(opts: {
+>(props: {
   defaultValues: TValues
-  schema?: TSchema extends StandardSchemaV1
-    ? ExtractValues<TSchema> extends TValues
-      ? TSchema
-      : never
-    : (value: TValues) => TResults | Promise<TResults>
+  schema?: TSchema
   onSubmit: (data: TValues) => TData | Promise<TData>
-  onSuccess?: (data: TData) => void
-  onError?: (error: TError) => void
-}) => {
-  const { defaultValues, schema, onSubmit, onSuccess, onError } = opts
+  onSuccess?: (data: TData) => unknown | Promise<unknown>
+  onError?: (error: TError) => unknown | Promise<unknown>
+}): {
+  formId: string
+  Field: <TName extends keyof TValues>(
+    props: FormFieldProps<TName, TValues>
+  ) => React.ReactNode
+  handleSubmit: (event?: React.SubmitEvent) => void
+  state: {
+    values: TValues
+    data: TData | null
+    error: TError | null
+    isPending: boolean
+  }
+  reset: () => void
+} {
+  const { defaultValues, schema, onSubmit, onSuccess, onError } = props
 
-  const valuesRef = React.useRef<TValues>(defaultValues)
-  const dataRef = React.useRef<TData | null>(null)
-  const errorRef = React.useRef<TError>({ message: null, errors: {} } as TError)
+  const formId = React.useId()
+  const formValuesRef = React.useRef<TValues>(defaultValues)
+  const formDataRef = React.useRef<TData | null>(null)
+  const formErrorRef = React.useRef<TError | null>(null)
   const [isPending, startTransition] = React.useTransition()
 
-  const getValues = React.useCallback(() => {
-    return valuesRef.current
-  }, [])
-
-  const getData = React.useCallback(() => {
-    return dataRef.current
-  }, [])
-
-  const getError = React.useCallback(() => {
-    return errorRef.current
-  }, [])
-
-  const setValue = React.useCallback(
-    <K extends keyof TValues>(key: K, value: TValues[K]) => {
-      valuesRef.current = { ...valuesRef.current, [key]: value }
+  const setFormValue = React.useCallback(
+    <TKey extends keyof TValues>(field: TKey, value: TValues[TKey]) => {
+      formValuesRef.current = { ...formValuesRef.current, [field]: value }
     },
-    [],
+    []
   )
 
-  const validateValues = React.useCallback(
-    async (
-      values: TValues,
-    ): Promise<
-      | { success: true; data: TValues; error: null }
-      | { success: false; data: null; error: TError }
-    > => {
-      if (!schema) return { success: true, data: values, error: null }
+  const validate = React.useCallback(
+    async (values: TValues): Promise<TValues> => {
+      if (!schema) return values
 
-      let result: TResults
-      if ('~standard' in schema)
-        result = (await schema['~standard'].validate(values)) as TResults
-      else result = await schema(values)
+      const result =
+        typeof schema === 'function'
+          ? await schema(values)
+          : await schema['~standard'].validate(values)
 
-      if (result.issues)
-        return {
-          success: false,
-          data: null,
-          error: {
-            message: 'Validation error',
-            errors: result.issues.reduce<
-              Record<string, StandardSchemaV1.Issue[]>
-            >((acc, issue) => {
-              if (!issue.path || issue.path.length === 0) return acc
-
-              const key =
-                typeof issue.path[0] === 'string' ? issue.path[0] : undefined
-              if (!key) return acc
-
-              acc[key] ??= []
-              acc[key].push(issue)
-              return acc
-            }, {}),
-          } as TError,
-        }
-
-      return { success: true, data: result.value, error: null }
+      if ('issues' in result) throw result.issues
+      return (result.value ?? result) as TValues
     },
-    [schema],
+    [schema]
   )
 
   const handleSubmit = React.useCallback(
-    (e: React.FormEvent | GestureResponderEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
+    (event?: React.SubmitEvent) => {
+      if (event) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      formDataRef.current = null
+      formErrorRef.current = null
 
       startTransition(async () => {
-        dataRef.current = null
-        errorRef.current = { message: null, errors: {} } as TError
-
-        const { success, data, error } = await validateValues(valuesRef.current)
-        if (!success) return void (errorRef.current = error)
-
         try {
-          dataRef.current = await onSubmit(data)
-          errorRef.current = { message: null, errors: {} } as TError
-          return onSuccess?.(dataRef.current)
-        } catch (e: unknown) {
-          const message = e instanceof Error ? e.message : String(e)
-          dataRef.current = null
-          errorRef.current = { message, errors: {} } as TError
-          return onError?.(errorRef.current)
+          const validValues = await validate(formValuesRef.current)
+          formValuesRef.current = validValues
+
+          const result = await onSubmit(validValues)
+          formDataRef.current = result ?? null
+          await onSuccess?.(result)
+        } catch (error) {
+          let issues: FormError['issues']
+          if (Array.isArray(error)) issues = error
+
+          let message = 'Validate failed'
+          if (error instanceof Error) ({ message } = error)
+
+          formErrorRef.current = { message, issues } as TError
+          await onError?.(formErrorRef.current)
         }
       })
     },
-    [onSubmit, onSuccess, onError, validateValues],
+    [onSubmit, onSuccess, onError, validate]
   )
 
   const Field = React.useCallback(
-    function FormField<TFieldName extends keyof TValues>(props: {
-      name: TFieldName
-      render: (props: RenderProps<TValues, TFieldName>) => React.ReactNode
-    }) {
-      const [localValue, setLocalValue] = React.useState<TValues[TFieldName]>(
-        valuesRef.current[props.name],
-      )
-      const [errors, setErrors] = React.useState<StandardSchemaV1.Issue[]>(
-        errorRef.current.errors?.[props.name] ?? [],
-      )
-      const prevLocalValueRef = React.useRef(localValue)
+    function FormField<TName extends keyof TValues>({
+      name,
+      render,
+    }: FormFieldProps<TName, TValues>) {
+      const id = React.useId()
 
-      const handleChange = (
-        event:
-          | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-          | PrimitiveValue,
-      ) => {
-        setErrors([])
+      const [value, setValue] = React.useState(
+        () => formValuesRef.current[name]
+      )
+      const prevValueRef = React.useRef(value)
 
-        if (typeof event !== 'object') {
-          setLocalValue(event as TValues[TFieldName])
-          setValue(props.name, event as TValues[TFieldName])
-          return
+      const [errors, setErrors] = React.useState<StandardSchemaV1.Issue[]>(() =>
+        extractError(formErrorRef.current?.issues ?? [], name as string)
+      )
+
+      const onChange = React.useCallback(
+        (param: OnChangeParam<TValues[TName]>) => {
+          if (param === null) return
+
+          setErrors([])
+
+          let newValue
+          if (typeof param === 'object' && 'target' in param) {
+            const target = param.target as HTMLInputElement
+
+            if (target.type === 'checkbox') newValue = target.checked
+            else if (target.type === 'number')
+              newValue = Number.isNaN(target.valueAsNumber)
+                ? 0
+                : target.valueAsNumber
+            else newValue = target.value
+          } else newValue = param as TValues[TName]
+
+          setValue(newValue as TValues[TName])
+          setFormValue(name, newValue as TValues[TName])
+        },
+        [name]
+      )
+
+      const onBlur = React.useCallback(async () => {
+        if (prevValueRef.current === value) return
+        prevValueRef.current = value
+
+        try {
+          const result = await validate({
+            ...formValuesRef.current,
+            [name]: value,
+          })
+          setFormValue(name, result[name])
+        } catch (error) {
+          if (!Array.isArray(error)) return
+          setErrors(extractError(error, name as string))
         }
+      }, [name, value])
 
-        event.persist()
-        let newValue
-        const { type, checked, value, valueAsNumber } =
-          event.target as unknown as HTMLInputElement
-        if (type === 'checkbox') newValue = checked
-        else if (type === 'number')
-          newValue = isNaN(valueAsNumber) ? '' : valueAsNumber
-        else newValue = value
-
-        setLocalValue(newValue as TValues[TFieldName])
-        setValue(props.name, newValue as TValues[TFieldName])
-      }
-
-      const handleBlur = async (
-        event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-      ) => {
-        event.persist()
-        if (prevLocalValueRef.current === localValue) return
-        prevLocalValueRef.current = localValue
-
-        const { success, error } = await validateValues({
-          ...valuesRef.current,
-          [props.name]: localValue,
-        })
-        if (success) setValue(props.name, localValue)
-        else setErrors(error.errors?.[props.name] ?? [])
-      }
-
-      return props.render({
-        meta: {
-          fieldId: `${String(props.name)}-field`,
-          descriptionId: `${String(props.name)}-description`,
-          errorId: `${String(props.name)}-error`,
+      const meta = React.useMemo(
+        () => ({
+          descriptionId: `form-${formId}-field-${id}-description`,
+          errorId: `form-${formId}-field-${id}-error`,
           errors,
           isPending,
-        },
+        }),
+        [id, errors]
+      )
+
+      return render({
         field: {
-          id: `${String(props.name)}-field`,
-          name: props.name,
-          value: localValue,
-          onChange: handleChange,
-          onBlur: handleBlur,
-          'aria-invalid': errors.length > 0,
+          id: `form-${formId}-field-${id}`,
+          name,
+          value,
+          onChange,
+          onBlur,
+
+          form: `form-${formId}`,
           'aria-describedby':
-            errors.length > 0
-              ? `${String(props.name)}-error ${String(props.name)}-description`
-              : `${String(props.name)}-description`,
+            meta.errors.length > 0
+              ? `${meta.descriptionId} ${meta.errorId}`
+              : meta.descriptionId,
+          'aria-invalid': meta.errors.length > 0,
         },
+        meta,
       })
     },
-    [isPending, setValue, validateValues],
+    [formId, setFormValue, validate, isPending]
+  )
+
+  const reset = React.useCallback(
+    () =>
+      startTransition(() => {
+        formValuesRef.current = defaultValues
+        formDataRef.current = null
+        formErrorRef.current = null
+      }),
+    [defaultValues]
   )
 
   return React.useMemo(
     () => ({
-      state: { getValues, getData, getError, isPending },
+      formId: `form-${formId}`,
       Field,
-      setValue,
       handleSubmit,
+      state: {
+        get values() {
+          return formValuesRef.current
+        },
+        get data() {
+          return formDataRef.current
+        },
+        get error() {
+          return formErrorRef.current
+        },
+        get isPending() {
+          return isPending
+        },
+      },
+      reset,
     }),
-    [Field, getData, getError, getValues, handleSubmit, isPending, setValue],
+    [formId, Field, handleSubmit, isPending, reset]
   )
 }
 
-export { useForm }
-
 /** The Standard Schema interface. */
-export interface StandardSchemaV1<Input = unknown, Output = Input> {
+interface StandardSchemaV1<Input = unknown, Output = Input> {
   /** The Standard Schema properties. */
   readonly '~standard': StandardSchemaV1.Props<Input, Output>
 }
 
-export declare namespace StandardSchemaV1 {
+// oxlint-disable-next-line typescript/no-namespace
+declare namespace StandardSchemaV1 {
   /** The Standard Schema properties interface. */
   export interface Props<Input = unknown, Output = Input> {
     /** The version number of the standard. */
@@ -264,7 +275,7 @@ export declare namespace StandardSchemaV1 {
     /** Validates unknown input values. */
     readonly validate: (
       value: unknown,
-      options?: StandardSchemaV1.Options | undefined,
+      options?: StandardSchemaV1.Options | undefined
     ) => Result<Output> | Promise<Result<Output>>
     /** Inferred types associated with the schema. */
     readonly types?: Types<Input, Output> | undefined
@@ -289,7 +300,7 @@ export declare namespace StandardSchemaV1 {
   /** The result interface if validation fails. */
   export interface FailureResult {
     /** The issues of failed validation. */
-    readonly issues: ReadonlyArray<Issue>
+    readonly issues: readonly Issue[]
   }
 
   /** The issue interface of the failure output. */
