@@ -9,6 +9,8 @@ import Lab1Root from '@/screens/labs/lab-1/__root'
 import Tabs from '@/screens/theories/(tabs)/__root'
 
 const RootStack = createNativeStackNavigator({
+  initialRouteName: 'index',
+
   screens: {
     index: {
       screen: IndexScreen,
@@ -34,7 +36,7 @@ const RootStack = createNativeStackNavigator({
       },
     },
 
-    //
+    // Others
     'sign-in': {
       screen: lazy(() => import('@/screens/sign-in')),
     },
