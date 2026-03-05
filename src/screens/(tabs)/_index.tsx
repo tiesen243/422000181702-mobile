@@ -25,6 +25,10 @@ export default function IndexScreen() {
           >
             <Text>Logout</Text>
           </Button>
+
+          <Button size='sm' onPress={() => navigation.navigate('labs')}>
+            <Text>Go to Labs</Text>
+          </Button>
         </>
       ) : (
         <>

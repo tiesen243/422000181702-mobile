@@ -1,4 +1,4 @@
-package com.qianyu.mobile
+package com.tiesen.mobile
 
 import android.app.Application
 import com.facebook.react.PackageList

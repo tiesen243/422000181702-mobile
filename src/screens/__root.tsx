@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
 import Tabs from '@/screens/(tabs)/__root'
+import Labs from '@/screens/labs/__root'
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -15,6 +16,11 @@ const RootStack = createNativeStackNavigator({
 
     login: {
       screen: lazy(() => import('@/screens/login')),
+      options: { headerShown: false },
+    },
+
+    labs: {
+      screen: Labs,
       options: { headerShown: false },
     },
   },
