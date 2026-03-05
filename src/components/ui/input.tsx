@@ -1,37 +1,22 @@
-import type { TextInputProps } from 'react-native'
-
-import { Platform, TextInput } from 'react-native'
-import { useUniwind } from 'uniwind'
+import { TextInput } from 'react-native'
 
 import { cn } from '@/lib/utils'
 
 function Input({
   className,
   placeholderTextColorClassName: _,
-  placeholderTextColor: __,
   ...props
-}: TextInputProps & React.RefAttributes<TextInput>) {
-  const { theme } = useUniwind()
+}: React.ComponentProps<typeof TextInput>) {
   return (
     <TextInput
+      data-slot='input'
       className={cn(
-        'h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base text-foreground transition-colors outline-none md:text-sm dark:bg-input/30',
+        'h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-2.5 py-1 text-base text-foreground shadow-xs transition-[color,box-shadow] outline-none md:text-sm dark:bg-input/30',
         props.editable === false &&
-          cn(
-            'opacity-50',
-            Platform.select({
-              web: 'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50',
-            })
-          ),
-        Platform.select({
-          web: cn(
-            'focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
-            'aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40'
-          ),
-        }),
+          'opacity-50 web:pointer-events-none web:cursor-not-allowed',
+        'web:focus-visible:border-ring web:focus-visible:ring-3 web:focus-visible:ring-ring/50 native:placeholder:text-muted-foreground',
         className
       )}
-      placeholderTextColor={theme === 'dark' ? '#a4a4a4' : '#525252'}
       {...props}
     />
   )

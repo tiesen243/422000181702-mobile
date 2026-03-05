@@ -4,50 +4,27 @@ import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
-import IndexScreen from '@/screens/_index'
-import Lab1Root from '@/screens/labs/lab-1/__root'
-import Tabs from '@/screens/theories/(tabs)/__root'
+import Tabs from '@/screens/(tabs)/__root'
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'index',
-
   screens: {
-    index: {
-      screen: IndexScreen,
-      options: {
-        title: 'Home',
-        headerShown: false,
-      },
-    },
-
-    // Theories
     tabs: {
       screen: Tabs,
-    },
-    'context-api': {
-      screen: lazy(() => import('@/screens/theories/context-api')),
+      options: { headerShown: false },
     },
 
-    // Labs
-    'lab-1': {
-      screen: Lab1Root,
-      options: {
-        headerShown: false,
-      },
-    },
-
-    // Others
-    'sign-in': {
-      screen: lazy(() => import('@/screens/sign-in')),
+    login: {
+      screen: lazy(() => import('@/screens/login')),
+      options: { headerShown: false },
     },
   },
 })
 
-export const Navigation = createStaticNavigation(RootStack)
+export default createStaticNavigation(RootStack)
+
+type RootStackParamList = StaticParamList<typeof RootStack>
 
 declare global {
-  type RootStackParamList = StaticParamList<typeof RootStack>
-
   // oxlint-disable-next-line typescript/no-namespace
   namespace ReactNavigation {
     // oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type

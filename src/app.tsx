@@ -1,54 +1,36 @@
 import '@/globals.css'
 
-import { DefaultTheme } from '@react-navigation/native'
-import * as SplashScreen from 'expo-splash-screen'
-import { StatusBar } from 'react-native'
+import { StatusBar, useColorScheme } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { useUniwind } from 'uniwind'
+import SplashScreen from 'react-native-splash-screen'
+import { Provider as ReduxProvider } from 'react-redux'
 
-import { SessionProvider } from '@/hooks/use-session'
-import { Navigation } from '@/screens/__root'
+import { DarkTheme, LightTheme } from '@/lib/theme'
+import { store } from '@/redux/store'
+import Navigation from '@/screens/__root'
 
-SplashScreen.preventAutoHideAsync()
-
-export default function App() {
-  const { theme: colorscheme } = useUniwind()
-  const theme =
-    colorscheme === 'dark'
-      ? {
-          dark: true,
-          colors: {
-            primary: 'rgb(63, 94, 194)',
-            background: 'rgb(0, 0, 0)',
-            card: 'rgb(10, 10, 10)',
-            text: 'rgb(255, 255, 255)',
-            border: 'rgb(36, 36, 36)',
-            notification: 'rgb(10, 10, 10)',
-          },
-          fonts: DefaultTheme.fonts,
-        }
-      : {
-          dark: false,
-          colors: {
-            primary: 'rgb(0, 0, 0)',
-            background: 'rgb(250, 250, 250)',
-            card: 'rgb(255, 255, 255)',
-            text: 'rgb(0, 0, 0)',
-            border: 'rgb(228, 228, 228)',
-            notification: 'rgb(255, 255, 255)',
-          },
-          fonts: DefaultTheme.fonts,
-        }
+function App() {
+  const colorScheme = useColorScheme()
+  const theme = colorScheme === 'dark' ? DarkTheme : LightTheme
 
   return (
     <SafeAreaProvider>
-      <SessionProvider>
-        <Navigation theme={theme} onReady={() => SplashScreen.hideAsync()} />
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+      />
 
-        <StatusBar
-          barStyle={colorscheme === 'dark' ? 'light-content' : 'dark-content'}
+      <ReduxProvider store={store}>
+        <Navigation
+          theme={theme}
+          linking={{
+            enabled: 'auto',
+            prefixes: [],
+          }}
+          onReady={() => SplashScreen.hide()}
         />
-      </SessionProvider>
+      </ReduxProvider>
     </SafeAreaProvider>
   )
 }
+
+export default App

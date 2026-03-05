@@ -25,7 +25,7 @@
     "pedantic": "error",
     "style": "error"
   },
-  "ignorePatterns": ["**/*.config.{js,ts}"],
+  "ignorePatterns": ["*.config.js", "*.d.ts"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "capitalized-comments": "off",
@@ -50,6 +50,7 @@
     "no-ternary": "off",
     "no-undefined": "off",
     "no-use-before-define": "off",
+    // Rely on oxfmt `experimentalSortImports` instead
     "sort-imports": "off",
     "sort-keys": "off",
 
@@ -114,6 +115,9 @@
   },
   "overrides": [
     {
+      // Jest and Vitest plugins scoped to test files only.
+      // Categories don't auto-enable rules for override plugins,
+      // so each rule must be listed explicitly.
       "files": [
         "**/*.{test,spec}.{ts,tsx,js,jsx}",
         "**/__tests__/**/*.{ts,tsx,js,jsx}"
