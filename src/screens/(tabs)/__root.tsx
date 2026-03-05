@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { CalculatorIcon, HomeIcon } from 'lucide-react-native'
+import { CalculatorIcon, HomeIcon, ListTodoIcon } from 'lucide-react-native'
 import { lazy } from 'react'
 
 const Tabs = createBottomTabNavigator({
@@ -22,6 +22,16 @@ const Tabs = createBottomTabNavigator({
         title: 'Counter',
         tabBarIcon: ({ color, size }) => (
           <CalculatorIcon color={color} size={size} />
+        ),
+      },
+    },
+
+    todos: {
+      screen: lazy(() => import('@/screens/(tabs)/todos')),
+      options: {
+        title: 'Todos',
+        tabBarIcon: ({ color, size }) => (
+          <ListTodoIcon color={color} size={size} />
         ),
       },
     },

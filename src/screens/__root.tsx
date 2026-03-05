@@ -8,21 +8,17 @@ import Tabs from '@/screens/(tabs)/__root'
 import Labs from '@/screens/labs/__root'
 
 const RootStack = createNativeStackNavigator({
+  initialRouteName: 'tabs',
+
+  screenOptions: {
+    headerShown: false,
+  },
+
   screens: {
-    tabs: {
-      screen: Tabs,
-      options: { headerShown: false },
-    },
-
-    login: {
-      screen: lazy(() => import('@/screens/login')),
-      options: { headerShown: false },
-    },
-
-    labs: {
-      screen: Labs,
-      options: { headerShown: false },
-    },
+    tabs: Tabs,
+    labs: Labs,
+    login: lazy(() => import('@/screens/login')),
+    todo: lazy(() => import('@/screens/todo')),
   },
 })
 
