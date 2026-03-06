@@ -6,6 +6,7 @@ import { lazy } from 'react'
 
 import Tabs from '@/screens/(tabs)/__root'
 import Labs from '@/screens/labs/__root'
+import Students from '@/screens/students/__root'
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'tabs',
@@ -17,6 +18,7 @@ const RootStack = createNativeStackNavigator({
   screens: {
     tabs: Tabs,
     labs: Labs,
+    students: Students,
     login: lazy(() => import('@/screens/login')),
     todo: lazy(() => import('@/screens/todo')),
   },

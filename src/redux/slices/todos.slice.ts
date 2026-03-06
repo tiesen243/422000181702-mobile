@@ -9,15 +9,6 @@ export interface Todo {
   completed: boolean
 }
 
-const todos = [
-  {
-    userId: 1,
-    id: 1,
-    title: 'delectus aut autem',
-    completed: false,
-  },
-]
-
 export const todosApi = createApi({
   reducerPath: 'todos',
   baseQuery: fetchBaseQuery({

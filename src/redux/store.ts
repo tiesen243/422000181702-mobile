@@ -3,12 +3,14 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 
 import authReducer from '@/redux/slices/auth.slice'
 import counterReducer from '@/redux/slices/counter.slice'
+import studentReducer from '@/redux/slices/student.slice'
 import { todosApi } from '@/redux/slices/todos.slice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     counter: counterReducer,
+    student: studentReducer,
     [todosApi.reducerPath]: todosApi.reducer,
   },
 

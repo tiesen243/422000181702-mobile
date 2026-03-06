@@ -16,8 +16,18 @@ export default function IndexScreen() {
       <Text className='text-2xl font-bold'>Welcome to the Home Screen!</Text>
 
       {auth.isAuthenticated ? (
-        <>
+        <View className='justify-center gap-4'>
           <Text className='mt-4 text-lg'>Hello, {auth.user?.name}!</Text>
+          <Button size='sm' onPress={() => navigation.navigate('labs')}>
+            <Text>Go to Labs</Text>
+          </Button>
+          <Button
+            size='sm'
+            onPress={() => navigation.navigate('students', { screen: 'index' })}
+          >
+            <Text>Go to Student</Text>
+          </Button>
+
           <Button
             variant='destructive'
             size='sm'
@@ -25,11 +35,7 @@ export default function IndexScreen() {
           >
             <Text>Logout</Text>
           </Button>
-
-          <Button size='sm' onPress={() => navigation.navigate('labs')}>
-            <Text>Go to Labs</Text>
-          </Button>
-        </>
+        </View>
       ) : (
         <>
           <Text className='mt-4 text-lg'>You are not logged in.</Text>
