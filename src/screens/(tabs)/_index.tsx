@@ -1,5 +1,7 @@
+// oxlint-disable promise/prefer-await-to-callbacks, promise/prefer-await-to-then
+
 import { useNavigation } from '@react-navigation/native'
-import { NativeModules, View } from 'react-native'
+import { View } from 'react-native'
 
 import { Button } from '@/components/ui/button'
 import { Text } from '@/components/ui/text'
@@ -14,7 +16,6 @@ export default function IndexScreen() {
   return (
     <View className='flex-1 items-center justify-center'>
       <Text className='text-2xl font-bold'>Welcome to the Home Screen!</Text>
-      <Text>{NativeModules.EnvModule.API_URL}</Text>
 
       {auth.isAuthenticated ? (
         <View className='justify-center gap-4'>

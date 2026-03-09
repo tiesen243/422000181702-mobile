@@ -52,6 +52,7 @@ android/app/src/main/assets/env*
 
 # typescript
 *.tsbuildinfo
+uniwind-types.d.ts
 
 # testing
 /coverage

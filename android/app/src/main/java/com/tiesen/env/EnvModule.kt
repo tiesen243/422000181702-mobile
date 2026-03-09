@@ -15,7 +15,7 @@ class EnvModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
         try {
             val properties = Properties()
             // Ensure you have an .env file inside android/app/src/main/assets/
-            val inputStream = reactApplicationContext.assets.open(".env")
+            val inputStream = reactApplicationContext.assets.open("env")
             properties.load(inputStream)
             
             for (key in properties.stringPropertyNames()) {
