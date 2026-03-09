@@ -134,3 +134,11 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+task copyEnv(type: Copy) {
+    from rootProject.file("../.env")
+    into "$projectDir/src/main/assets"
+    rename { "env" }
+}
+
+preBuild.dependsOn(copyEnv)

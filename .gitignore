@@ -38,6 +38,7 @@ node_modules/
 # env files
 .env*
 !.env.example
+android/app/src/main/assets/env*
 
 # Bundle artifact
 *.jsbundle
@@ -48,6 +49,9 @@ node_modules/
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+
+# typescript
+*.tsbuildinfo
 
 # testing
 /coverage
