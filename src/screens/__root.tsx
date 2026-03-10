@@ -4,6 +4,7 @@ import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
+import Drawer from '@/screens/(drawer)/__root'
 import Tabs from '@/screens/(tabs)/__root'
 import Labs from '@/screens/labs/__root'
 import Students from '@/screens/students/__root'
@@ -17,6 +18,7 @@ const RootStack = createNativeStackNavigator({
 
   screens: {
     tabs: Tabs,
+    drawer: Drawer,
     labs: Labs,
     students: Students,
     login: lazy(() => import('@/screens/login')),

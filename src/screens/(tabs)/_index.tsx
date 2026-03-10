@@ -17,6 +17,10 @@ export default function IndexScreen() {
     <View className='flex-1 items-center justify-center'>
       <Text className='text-2xl font-bold'>Welcome to the Home Screen!</Text>
 
+      <Button size='sm' onPress={() => navigation.navigate('drawer')}>
+        <Text>Go to Drawer</Text>
+      </Button>
+
       {auth.isAuthenticated ? (
         <View className='mt-8 w-full gap-4 px-4'>
           <Text className='text-lg'>Hello, {auth.user?.name}!</Text>
