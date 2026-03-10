@@ -18,20 +18,15 @@ export default function IndexScreen() {
       <Text className='text-2xl font-bold'>Welcome to the Home Screen!</Text>
 
       {auth.isAuthenticated ? (
-        <View className='justify-center gap-4'>
-          <Text className='mt-4 text-lg'>Hello, {auth.user?.name}!</Text>
+        <View className='mt-8 w-full gap-4 px-4'>
+          <Text className='text-lg'>Hello, {auth.user?.name}!</Text>
 
-          <Button
-            size='sm'
-            className='w-full'
-            onPress={() => navigation.navigate('labs')}
-          >
+          <Button size='sm' onPress={() => navigation.navigate('labs')}>
             <Text>Go to Labs</Text>
           </Button>
 
           <Button
             size='sm'
-            className='w-full'
             onPress={() => navigation.navigate('students', { screen: 'index' })}
           >
             <Text>Go to Student</Text>
@@ -39,7 +34,6 @@ export default function IndexScreen() {
 
           <Button
             size='sm'
-            className='w-full'
             variant='destructive'
             onPress={() => dispatch(logout())}
           >
@@ -47,12 +41,12 @@ export default function IndexScreen() {
           </Button>
         </View>
       ) : (
-        <>
-          <Text className='my-4 text-lg'>You are not logged in.</Text>
+        <View className='mt-8 w-full gap-4 px-4'>
+          <Text className='text-lg'>You are not logged in.</Text>
           <Button size='sm' onPress={() => navigation.navigate('login')}>
             <Text>Login</Text>
           </Button>
-        </>
+        </View>
       )}
     </View>
   )
