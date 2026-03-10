@@ -44,7 +44,11 @@ export default function IndexScreen() {
         </>
       )}
 
-      <Button size='sm' onPress={() => navigation.navigate('labs')}>
+      <Button
+        size='sm'
+        className='mt-4'
+        onPress={() => navigation.navigate('labs')}
+      >
         <Text>Go to Labs</Text>
       </Button>
     </View>
