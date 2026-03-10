@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -8,6 +9,7 @@ import { Text } from '@/components/ui/text'
 export default function Assignment1Screen() {
   const [fahrenheit, setFahrenheit] = React.useState('')
   const [celsius, setCelsius] = React.useState('')
+  const insets = useSafeAreaInsets()
 
   const convertToCelsius = () => {
     const fahrenheitValue = Number.parseFloat(fahrenheit)
@@ -31,7 +33,7 @@ export default function Assignment1Screen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.field}>
         <Text>Fahrenheit</Text>
         <Input value={fahrenheit} onChangeText={setFahrenheit} />

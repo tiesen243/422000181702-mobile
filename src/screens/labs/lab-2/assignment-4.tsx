@@ -2,6 +2,7 @@ import type { ColorValue } from 'react-native'
 
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useCSSVariable } from 'uniwind'
 
 import { Button } from '@/components/ui/button'
@@ -9,8 +10,9 @@ import { Input } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 
 export default function Assignment4Screen() {
+  const secondaryColor = useCSSVariable('--secondary') as ColorValue
   const [input, setInput] = React.useState('')
-  const mutedColor = useCSSVariable('--secondary') as ColorValue
+  const insets = useSafeAreaInsets()
 
   const handleButtonPress = (button: string) => {
     if (button === 'DELETE') setInput((prev) => prev.slice(0, -1))
@@ -26,7 +28,7 @@ export default function Assignment4Screen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <Input
         style={styles.textarea}
         value={input}
@@ -37,7 +39,7 @@ export default function Assignment4Screen() {
 
       <View>
         <View style={[styles.buttonRow, { marginBottom: 8 }]}>
-          <View style={{ flex: 4, backgroundColor: mutedColor }} />
+          <View style={{ flex: 4, backgroundColor: secondaryColor }} />
           <Button
             variant='secondary'
             style={styles.button}

@@ -1,14 +1,16 @@
 import { useTheme } from '@react-navigation/native'
 import * as React from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Card, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 
 export default function Assignment6Screen() {
-  const { colors } = useTheme()
   const [search, setSearch] = React.useState('')
+  const insets = useSafeAreaInsets()
+  const { colors } = useTheme()
 
   const filteredPeople = React.useMemo(() => {
     const lowerSearch = search.toLowerCase()
@@ -18,7 +20,7 @@ export default function Assignment6Screen() {
   }, [search])
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <Input
         placeholder='Search...'
         value={search}

@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 
 export default function Assignment2Screen() {
-  const [year, setYear] = React.useState(1900)
   const [lunarYear, setLunarYear] = React.useState('')
+  const [year, setYear] = React.useState(1900)
+  const insets = useSafeAreaInsets()
 
   const handleChange = (text: string) => {
     if (text.trim() === '') return setYear(1900)
@@ -24,7 +26,7 @@ export default function Assignment2Screen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <Text>Chuyển đổi năm Dương Lịch</Text>
 
       <View style={styles.field}>

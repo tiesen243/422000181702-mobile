@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -16,6 +17,7 @@ interface Info {
 }
 
 export default function Assignment3Screen() {
+  const insets = useSafeAreaInsets()
   const [info, setInfo] = React.useState<Info>({
     id: '',
     name: '',
@@ -50,7 +52,7 @@ ${validatedInfo.additionalInfo.join('\n')}
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <Text>Thông tin cá nhân</Text>
       <View style={styles.field}>
         <Text>Họ tên</Text>
