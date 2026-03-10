@@ -12,7 +12,6 @@ export default function Assignment5Screen() {
         renderItem={({ item }) => (
           <Card>
             <CardHeader>
-              name
               <Text>{item}</Text>
             </CardHeader>
           </Card>

@@ -9,17 +9,17 @@ export default function Assignment1Screen() {
   const [fahrenheit, setFahrenheit] = React.useState('')
   const [celsius, setCelsius] = React.useState('')
 
-  const handleConvertToCelsius = () => {
+  const convertToCelsius = () => {
     const fahrenheitValue = Number.parseFloat(fahrenheit)
-    if (Number.isNaN(fahrenheitValue)) return setCelsius('')
+    if (Number.isNaN(fahrenheitValue)) return
 
     const celsiusValue = ((fahrenheitValue - 32) * 5) / 9
     setCelsius(celsiusValue.toFixed(2))
   }
 
-  const handleConvertToFahrenheit = () => {
+  const convertToFahrenheit = () => {
     const celsiusValue = Number.parseFloat(celsius)
-    if (Number.isNaN(celsiusValue)) return setFahrenheit('')
+    if (Number.isNaN(celsiusValue)) return
 
     const fahrenheitValue = (celsiusValue * 9) / 5 + 32
     setFahrenheit(fahrenheitValue.toFixed(2))
@@ -43,11 +43,11 @@ export default function Assignment1Screen() {
       </View>
 
       <View style={styles.buttons}>
-        <Button style={styles.button} onPress={handleConvertToCelsius}>
+        <Button style={styles.button} onPress={convertToCelsius}>
           <Text>Convert to Celsius</Text>
         </Button>
 
-        <Button style={styles.button} onPress={handleConvertToFahrenheit}>
+        <Button style={styles.button} onPress={convertToFahrenheit}>
           <Text>Convert to Fahrenheit</Text>
         </Button>
       </View>

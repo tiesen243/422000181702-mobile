@@ -37,7 +37,7 @@ export default function Assignment4Screen() {
 
       <View>
         <View style={[styles.buttonRow, { marginBottom: 8 }]}>
-          <View style={{ flex: 14, backgroundColor: mutedColor }} />
+          <View style={{ flex: 4, backgroundColor: mutedColor }} />
           <Button
             variant='secondary'
             style={styles.button}
