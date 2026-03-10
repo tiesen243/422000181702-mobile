@@ -20,9 +20,6 @@ export default function IndexScreen() {
       {auth.isAuthenticated ? (
         <View className='justify-center gap-4'>
           <Text className='mt-4 text-lg'>Hello, {auth.user?.name}!</Text>
-          <Button size='sm' onPress={() => navigation.navigate('labs')}>
-            <Text>Go to Labs</Text>
-          </Button>
           <Button
             size='sm'
             onPress={() => navigation.navigate('students', { screen: 'index' })}
@@ -46,6 +43,10 @@ export default function IndexScreen() {
           </Button>
         </>
       )}
+
+      <Button size='sm' onPress={() => navigation.navigate('labs')}>
+        <Text>Go to Labs</Text>
+      </Button>
     </View>
   )
 }

@@ -1,5 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
-import type { StaticScreenProps } from '@react-navigation/native';
+import type { StaticScreenProps } from '@react-navigation/native'
+
+import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { View } from 'react-native'
 

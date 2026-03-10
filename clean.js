@@ -26,7 +26,7 @@ async function main() {
   await Promise.allSettled([
     exec(
       'xcodebuild clean -project ios/Runner.xcodeproj -scheme Runner -configuration Debug',
-      { cwd: iosPath },
+      { cwd: iosPath }
     ),
     fs.rm(path.join(iosPath, 'Pods'), opts),
     fs.rm(path.join(iosPath, 'Runner.xcworkspace'), opts),

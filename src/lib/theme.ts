@@ -24,6 +24,6 @@ export const DarkTheme = {
     card: 'rgb(10, 10, 10)',
     notification: 'rgb(10, 10, 10)',
     primary: 'rgb(63, 94, 194)',
-    border: 'rgb(36,, 36, 36)',
+    border: 'rgb(36, 36, 36)',
   },
 } satisfies Theme

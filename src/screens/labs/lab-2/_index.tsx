@@ -11,26 +11,29 @@ import {
 } from '@/components/ui/card'
 import { Text } from '@/components/ui/text'
 
-export default function LabsIndexScreen() {
+export default function Lab2IndexScreen() {
   const navigation = useNavigation()
 
   return (
     <View className='flex-1 items-center justify-center px-4'>
       <Card>
         <CardHeader>
-          <CardTitle>Labs</CardTitle>
+          <CardTitle>Lab 2</CardTitle>
           <CardDescription>
-            Explore our collection of labs designed to help you learn and
-            practice new skills.
+            This is the first lab in our series. Here, you will learn the basics
+            of React Native development.
           </CardDescription>
         </CardHeader>
 
         <CardContent className='gap-2'>
-          {labs.map((item) => (
+          {assignments.map((item) => (
             <Button
               key={item.screen}
               onPress={() =>
-                navigation.navigate('labs', { screen: item.screen })
+                navigation.navigate('labs', {
+                  screen: 'lab-2',
+                  params: { screen: item.screen },
+                })
               }
             >
               <Text>{item.name}</Text>
@@ -42,13 +45,11 @@ export default function LabsIndexScreen() {
   )
 }
 
-const labs = [
-  {
-    name: 'Lab 1',
-    screen: 'lab-1',
-  },
-  {
-    name: 'Lab 2',
-    screen: 'lab-2',
-  },
+const assignments = [
+  { name: 'Assignment 1', screen: 'assignment-1' },
+  { name: 'Assignment 2', screen: 'assignment-2' },
+  { name: 'Assignment 3', screen: 'assignment-3' },
+  { name: 'Assignment 4', screen: 'assignment-4' },
+  { name: 'Assignment 5', screen: 'assignment-5' },
+  { name: 'Assignment 6', screen: 'assignment-6' },
 ] as const

@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { lazy } from 'react'
 
-import Lab1Screen from '@/screens/labs/lab-1/_index'
+import Lab1IndexScreen from '@/screens/labs/lab-1/_index'
 
 const Lab1 = createNativeStackNavigator({
   initialRouteName: 'index',
@@ -11,7 +11,7 @@ const Lab1 = createNativeStackNavigator({
   },
 
   screens: {
-    index: Lab1Screen,
+    index: Lab1IndexScreen,
     'assignment-1': lazy(() => import('@/screens/labs/lab-1/assignment-1')),
     'assignment-2': lazy(() => import('@/screens/labs/lab-1/assignment-2')),
     'assignment-2-extra': lazy(
