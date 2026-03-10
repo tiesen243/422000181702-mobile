@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { FlatList, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import type { Student } from '@/redux/slices/student.slice'
 
@@ -17,10 +18,11 @@ import { addStudent, deleteStudent } from '@/redux/slices/student.slice'
 
 export default function StudentsIndexScreen() {
   const students = useAppSelector((state) => state.student)
+  const insets = useSafeAreaInsets()
   const dispatch = useAppDispatch()
 
   return (
-    <View className='gap-4 p-4'>
+    <View className='flex-1 gap-4 p-4' style={{ paddingTop: insets.top }}>
       <Button
         onPress={() =>
           dispatch(

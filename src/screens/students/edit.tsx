@@ -3,6 +3,7 @@ import type { StaticScreenProps } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,18 +24,22 @@ export default function StudentsEditScreen({
     state.student.find((s) => s.id === id)
   )
   const dispatch = useAppDispatch()
+  const insets = useSafeAreaInsets()
   const navigation = useNavigation()
   const [name, setName] = useState(student?.name ?? '')
 
   if (!student)
     return (
-      <View className='flex-1 items-center justify-center px-4'>
+      <View
+        className='flex-1 items-center justify-center px-4'
+        style={{ paddingTop: insets.top }}
+      >
         <Text className='text-red-500'>Student not found.</Text>
       </View>
     )
 
   return (
-    <View className='flex-1 px-4'>
+    <View className='flex-1 p-4' style={{ paddingTop: insets.top }}>
       <Text variant='h1'>Edit Student: {student.id}</Text>
 
       <Input
