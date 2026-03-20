@@ -8,15 +8,18 @@ import Drawer from '@/screens/(drawer)/__root'
 import Tabs from '@/screens/(tabs)/__root'
 import Labs from '@/screens/labs/__root'
 import Students from '@/screens/students/__root'
+import Test from '@/screens/test/__root'
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'tabs',
+  initialRouteName: 'test',
 
   screenOptions: {
     headerShown: false,
   },
 
   screens: {
+    test: Test,
+
     tabs: Tabs,
     drawer: Drawer,
     labs: Labs,
